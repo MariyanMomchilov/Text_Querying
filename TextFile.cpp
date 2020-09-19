@@ -48,11 +48,18 @@ TextFile::TextFile(std::istream &is)
         std::vector<std::string> words = separate_words(line);
         for (std::string &word : words)
         {
-            word_mapper[word].insert(current_line);
+            if (word_mapper[word] == nullptr)
+                word_mapper[word] = new std::set<size_t>();
+            word_mapper[word]->insert(current_line);
         }
         current_line++;
     }
 }
+
+//QueryResult TextFile::query() const
+//{
+//
+//}
 
 std::ostream &operator<<(std::ostream &os, const TextFile &text)
 {
@@ -63,10 +70,18 @@ std::ostream &operator<<(std::ostream &os, const TextFile &text)
     os << "\nwords -> lines: \n";
     for (auto pair : text.word_mapper)
     {
-        os << pair.first << "-> ";
-        for (size_t el : pair.second)
+        os << pair.first << " -> ";
+        for (size_t el : *pair.second)
             os << el << ", ";
         os << '\n';
     }
     return os;
+}
+
+TextFile::~TextFile()
+{
+    for (auto pair : word_mapper)
+    {
+        delete pair.second;
+    }
 }
