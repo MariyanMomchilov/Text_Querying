@@ -1,4 +1,6 @@
 #include "TextFile.hpp"
+#include "Exceptions.hpp"
+#include "QueryResult.hpp"
 
 const char *TextFile::delimiters = ",.:;!? \t\n";
 
@@ -56,10 +58,12 @@ TextFile::TextFile(std::istream &is)
     }
 }
 
-//QueryResult TextFile::query() const
-//{
-//
-//}
+QueryResult TextFile::query(const std::string &word)
+{
+    if (word_mapper.find(word) == word_mapper.end())
+        throw SetNullPointerException();
+    return QueryResult(word, text_lines, (*word_mapper.find(word)).second);
+}
 
 std::ostream &operator<<(std::ostream &os, const TextFile &text)
 {
@@ -82,6 +86,7 @@ TextFile::~TextFile()
 {
     for (auto pair : word_mapper)
     {
-        delete pair.second;
+        if (pair.second != nullptr)
+            delete pair.second;
     }
 }

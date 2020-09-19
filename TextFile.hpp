@@ -18,10 +18,10 @@ private:
     friend std::ostream &operator<<(std::ostream &os, const TextFile &);
     std::vector<std::string> separate_words(std::string &line);
     bool is_delimiter(char c) const;
-    QueryResult query() const;
 
 public:
     TextFile(std::istream &is);
+    QueryResult query(const std::string &word);
     ~TextFile();
 };
 

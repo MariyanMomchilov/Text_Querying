@@ -4,8 +4,8 @@
 
 class NullPointerException : public std::exception
 {
-private:
-    std::string msg;
+protected:
+    mutable std::string msg;
 
 public:
     NullPointerException(const std::string &_msg) noexcept;
@@ -15,6 +15,9 @@ public:
 
 class SetNullPointerException : public NullPointerException
 {
+
+    static std::string name;
+
 public:
     SetNullPointerException() noexcept;
     SetNullPointerException(const std::string &_msg) noexcept;
