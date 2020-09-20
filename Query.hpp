@@ -9,12 +9,17 @@ class Query
 {
 private:
     Base_query *to_query;
+    Query(Base_query *_ptr);
 
 public:
     Query(const std::string &word = "");
     std::string to_string() const;
-    QueryResult eval(TextFile &file) const;
-    Query(Base_query *_ptr);
+    QueryResult eval(TextFile &file) const noexcept;
+
+    Query operator|(const Query &rhs);
+    Query operator&(const Query &rhs);
+    Query operator~();
+
     ~Query();
 };
 
