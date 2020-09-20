@@ -11,7 +11,9 @@ private:
     Base_query *to_query;
 
 public:
-    Query();
+    Query(const std::string &word = "");
+    std::string to_string() const;
+    QueryResult eval(TextFile &file) const;
     Query(Base_query *_ptr);
     ~Query();
 };
