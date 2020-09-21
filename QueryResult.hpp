@@ -9,11 +9,14 @@ class QueryResult
 {
 private:
     friend class TextFile;
+    friend class AndQuery;
+    friend class OrQuery;
+    friend class NotQuery;
     friend std::ostream &operator<<(std::ostream &os, const QueryResult &);
     std::string word;
-    std::vector<std::string> &text_ref;
-    std::set<size_t> *set_ptr;
-    QueryResult(const std::string &_w, std::vector<std::string> &_text_ref, std::set<size_t> *_set_ptr) noexcept;
+    const std::vector<std::string> &text_ref;
+    std::set<size_t> *set_ptr; //make shared
+    QueryResult(const std::string &_w, const std::vector<std::string> &_text_ref, std::set<size_t> *_set_ptr) noexcept;
 
     class Iterator
     {
@@ -32,7 +35,7 @@ private:
 public:
     Iterator begin();
     Iterator end();
-    ~QueryResult() = default; // set_ptr is handled only by TextQuery for now
+    ~QueryResult(); // set_ptr is deleted only if it was constructed by ~, |, &
 };
 
 #endif

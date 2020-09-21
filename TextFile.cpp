@@ -4,6 +4,11 @@
 
 const char *TextFile::delimiters = ",.:;!? \t\n";
 
+const std::vector<std::string> & TextFile::getText() const
+{
+    return text_lines;
+}
+
 bool TextFile::is_delimiter(char c) const
 {
     int i = 0;
