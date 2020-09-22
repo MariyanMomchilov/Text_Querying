@@ -8,8 +8,8 @@ class Base_query;
 class Query
 {
 private:
-    Base_query *to_query; // make shared
-    Query(Base_query *_ptr);
+    SharedPtr<Base_query> to_query; // make shared
+    Query(const SharedPtr<Base_query> &_ptr);
 
 public:
     Query(const std::string &word = "");
@@ -19,7 +19,7 @@ public:
     Query operator&(const Query &rhs);
     //Query operator~();
 
-    ~Query();
+    ~Query() = default;
 };
 
 #endif

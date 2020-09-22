@@ -4,7 +4,7 @@
 
 const char *TextFile::delimiters = ",.:;!? \t\n";
 
-const std::vector<std::string> & TextFile::getText() const
+const std::vector<std::string> &TextFile::getText() const
 {
     return text_lines;
 }
@@ -55,8 +55,8 @@ TextFile::TextFile(std::istream &is)
         std::vector<std::string> words = separate_words(line);
         for (std::string &word : words)
         {
-            if (word_mapper[word] == nullptr)
-                word_mapper[word] = new std::set<size_t>();
+            if (word_mapper[word] == SharedPtr<std::set<size_t>>())
+                word_mapper[word] = SharedPtr<std::set<size_t>>(new std::set<size_t>());
             word_mapper[word]->insert(current_line);
         }
         current_line++;
@@ -85,13 +85,4 @@ std::ostream &operator<<(std::ostream &os, const TextFile &text)
         os << '\n';
     }
     return os;
-}
-
-TextFile::~TextFile()
-{
-    for (auto pair : word_mapper)
-    {
-        if (pair.second != nullptr)
-            delete pair.second;
-    }
 }

@@ -9,7 +9,7 @@ private:
     virtual std::string to_string() const noexcept = 0;
     virtual QueryResult eval(TextFile &file) const = 0;
 
-protected:
+public:
     virtual ~Base_query() = default;
 };
 

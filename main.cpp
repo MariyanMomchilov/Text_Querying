@@ -1,5 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
+#include "SharedPtr.cpp"
 #include "TextFile.hpp"
 #include "QueryResult.hpp"
 #include "Query.hpp"
@@ -15,6 +16,7 @@
 
 TEST_CASE("TextFile constructor")
 {
+    std::cout << "TextFile case\n\n";
     std::ifstream file("text.txt");
     TextFile text(file);
     std::cout << text << '\n';
@@ -23,6 +25,7 @@ TEST_CASE("TextFile constructor")
 
 TEST_CASE("ResultQuery")
 {
+    std::cout << "ResultQuery case\n\n";
     std::ifstream file("text.txt");
     TextFile text(file);
     QueryResult result = text.query("are");
@@ -41,6 +44,7 @@ TEST_CASE("ResultQuery")
 
 TEST_CASE("Queries")
 {
+    std::cout << "Queries case\n\n";
     std::ifstream file("text.txt");
     TextFile text(file);
 
@@ -55,17 +59,19 @@ TEST_CASE("Queries")
     file.close();
 }
 
-TEST_CASE("Queries")
+TEST_CASE("Shared pointer")
 {
-    std::ifstream file("text.txt");
-    TextFile text(file);
+    std::cout << "Shared pointers case\n\n";
 
-    std::cout << Query("Roses").eval(text) << '\n';
-    Query andQ = Query("Sugar") & Query("sweet");
+    SharedPtr<int> int_ptr(new int(3));
+    SharedPtr<int> int_ptr2(int_ptr);
 
-    std::cout << andQ.eval(text) << '\n'
-              << andQ.to_string() << '\n';
-    file.close();
+    CHECK(int_ptr.count_references() == 2);
+    CHECK(int_ptr2.count_references() == 2);
+
+    int_ptr2 = SharedPtr<int>(new int(5));
+    CHECK(int_ptr.count_references() == 1);
+    CHECK(int_ptr2.count_references() == 1);
 }
 
 int main()

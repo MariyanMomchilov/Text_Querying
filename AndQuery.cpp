@@ -10,7 +10,7 @@ QueryResult AndQuery::eval(TextFile &file) const
 {
     QueryResult eval_left = left.eval(file);
     QueryResult eval_right = right.eval(file);
-    std::set<size_t> *res_set = new std::set<size_t>();
+    SharedPtr<std::set<size_t>> res_set(new std::set<size_t>());
 
     for (auto el_left : eval_left)
     {

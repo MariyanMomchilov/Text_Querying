@@ -5,7 +5,7 @@
 //#include "OrQuery.hpp"
 //#include "NotQuery.hpp"
 
-Query::Query(Base_query *_ptr) : to_query(_ptr) {}
+Query::Query(const SharedPtr<Base_query> &_ptr) : to_query(_ptr) {}
 Query::Query(const std::string &word) : to_query(new WordQuery(word)) {}
 std::string Query::to_string() const noexcept
 {
@@ -18,11 +18,5 @@ QueryResult Query::eval(TextFile &file) const
 
 Query Query::operator&(const Query &rhs)
 {
-    return Query(new AndQuery(*this, rhs));
-}
-
-Query::~Query()
-{
-    if (to_query != nullptr)
-        delete to_query;
+    return Query(SharedPtr<Base_query>(new AndQuery(*this, rhs)));
 }
