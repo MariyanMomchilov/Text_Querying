@@ -2,8 +2,8 @@
 #include "WordQuery.hpp"
 #include "AndQuery.hpp"
 #include "QueryResult.hpp"
-//#include "OrQuery.hpp"
-//#include "NotQuery.hpp"
+#include "OrQuery.hpp"
+#include "NotQuery.hpp"
 
 Query::Query(const SharedPtr<Base_query> &_ptr) : to_query(_ptr) {}
 Query::Query(const std::string &word) : to_query(new WordQuery(word)) {}
@@ -19,4 +19,14 @@ QueryResult Query::eval(TextFile &file) const
 Query Query::operator&(const Query &rhs)
 {
     return Query(SharedPtr<Base_query>(new AndQuery(*this, rhs)));
+}
+
+Query Query::operator~()
+{
+    return Query(SharedPtr<Base_query>(new NotQuery(*this)));
+}
+
+Query Query::operator|(const Query &rhs)
+{
+    return Query(SharedPtr<Base_query>(new OrQuery(*this, rhs)));
 }

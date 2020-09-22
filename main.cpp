@@ -56,6 +56,19 @@ TEST_CASE("Queries")
 
     std::cout << andQ.eval(text) << '\n'
               << andQ.to_string() << '\n';
+
+    Query notq = ~andQ;
+
+    std::cout << notq.eval(text) << '\n'
+              << notq.to_string() << '\n';
+
+    Query orq = q2 | Query("Violets");
+
+    std::cout << orq.eval(text) << '\n'
+              << orq.to_string() << '\n';
+
+    std::cout << (orq | notq).eval(text) << '\n';
+
     file.close();
 }
 

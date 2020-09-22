@@ -9,10 +9,12 @@
 class QueryResult
 {
 private:
+    //for the private constructor
     friend class TextFile;
     friend class AndQuery;
     friend class OrQuery;
     friend class NotQuery;
+
     friend std::ostream &operator<<(std::ostream &os, const QueryResult &);
     std::string word;
     const std::vector<std::string> &text_ref;
